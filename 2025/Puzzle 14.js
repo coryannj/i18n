@@ -29,7 +29,7 @@ const m2 = (num)=> {
     let 
         maxTens = Object.entries(tens).findLast(([u,v])=>num.includes(u)),
         split = num.split(maxTens[0]),
-        ans = ((m2(split[0],0) || 1) * maxTens[1]) + m2(split[1],0)
+        ans = ((m2(split[0]) || 1) * maxTens[1]) + m2(split[1])
 
     cache[num] = ans;
     
