@@ -14,12 +14,17 @@ let units= {
     厘: 0.001*shaku,
     分: 0.01*shaku,
     寸: 0.1*shaku
-}
+};
 
-let base = { 一 :1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9 }
-let tens = { 十 :10, 百: 100, 千: 1000, 万: 10000, 億: 100000000 }
+let base = { 一 :1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9 };
+
+let tens = { 十 :10, 百: 100, 千: 1000, 万: 10000, 億: 100000000 };
+
+let cache = {};
 
 const m2 = (num,curr)=> {
+    if(cache[num] !== undefined) return cache[num]
+    
     if(curr === undefined) curr = 0
 
     if(num.length === 0) return curr
@@ -30,11 +35,18 @@ const m2 = (num,curr)=> {
 
     let split = num.split(maxTens[0])
 
+    let ans
+
     if(split[0].length === 0){
-        return maxTens[1]+m2(split[1],0)
+        ans = maxTens[1]+m2(split[1],0)
+
+        //return maxTens[1]+m2(split[1],0)
     } else {
-        return (m2(split[0],0)*maxTens[1])+m2(split[1],0)
+        ans = (m2(split[0],0)*maxTens[1])+m2(split[1],0)
     }
+
+    cache[num] = ans
+    return ans
 }
 
 let lines = input.lines().map((x)=>x.split(' × ').map((y)=>[y.slice(0,-1),y.slice(-1)]))
