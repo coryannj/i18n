@@ -16,26 +16,20 @@ let units= {
     寸: 0.1*shaku
 };
 
-let base = { 一 :1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9 };
-
-let tens = { 十 :10, 百: 100, 千: 1000, 万: 10000, 億: 100000000 };
-
-let cache = {};
+let 
+    base = { 一 :1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9 },
+    tens = { 十 :10, 百: 100, 千: 1000, 万: 10000, 億: 100000000 },
+    cache = {};
 
 const m2 = (num,curr)=> {
-    if(cache[num] !== undefined) return cache[num]
-    
-    if(curr === undefined) curr = 0
-
-    if(num.length === 0) return curr
-    
-    if(num.length === 1) return (base[num]||tens[num])+curr
+    if(cache[num] !== undefined) return cache[num];
+        
+    if(num.length <= 1) return (base[num] ?? tens[num] ?? 0)+curr;
    
-    let maxTens = Object.entries(tens).findLast(([u,v])=>num.includes(u))
-
-    let split = num.split(maxTens[0])
-
-    let ans
+    let 
+        maxTens = Object.entries(tens).findLast(([u,v])=>num.includes(u)),
+        split = num.split(maxTens[0]),
+        ans
 
     if(split[0].length === 0){
         ans = maxTens[1]+m2(split[1],0)
@@ -49,4 +43,4 @@ const m2 = (num,curr)=> {
 
 let lines = input.lines().map((x)=>x.split(' × ').map((y)=>[y.slice(0,-1),y.slice(-1)]))
 
-console.log(lines.map(([[n1,u1],[n2,u2]])=>Math.round((m2(n1)*units[u1])*(m2(n2)*units[u2]))).sum())
+console.log(lines.map(([[n1,u1],[n2,u2]])=>Math.round((m2(n1,0)*units[u1])*(m2(n2,0)*units[u2]))).sum())
