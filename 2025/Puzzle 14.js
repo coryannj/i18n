@@ -39,8 +39,6 @@ const m2 = (num,curr)=> {
 
     if(split[0].length === 0){
         ans = maxTens[1]+m2(split[1],0)
-
-        //return maxTens[1]+m2(split[1],0)
     } else {
         ans = (m2(split[0],0)*maxTens[1])+m2(split[1],0)
     }
