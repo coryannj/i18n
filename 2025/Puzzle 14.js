@@ -21,7 +21,7 @@ let
     tens = { 十 :10, 百: 100, 千: 1000, 万: 10000, 億: 100000000 },
     cache = {};
 
-const m2 = (num)=> {
+const count = (num) => {
     if(cache[num] !== undefined) return cache[num];
         
     if(num.length <= 1) return (base[num] ?? tens[num] ?? 0);
@@ -29,7 +29,7 @@ const m2 = (num)=> {
     let 
         maxTens = Object.entries(tens).findLast(([u,v])=>num.includes(u)),
         split = num.split(maxTens[0]),
-        ans = ((m2(split[0]) || 1) * maxTens[1]) + m2(split[1])
+        ans = ((count(split[0]) || 1) * maxTens[1]) + count(split[1])
 
     cache[num] = ans;
     
@@ -38,4 +38,4 @@ const m2 = (num)=> {
 
 let lines = input.lines().map((x)=>x.split(' × ').map((y)=>[y.slice(0,-1),y.slice(-1)]))
 
-console.log(lines.map(([[n1,u1],[n2,u2]])=>Math.round((m2(n1)*units[u1])*(m2(n2)*units[u2]))).sum())
+console.log(lines.map(([[n1,u1],[n2,u2]])=>Math.round((count(n1) * units[u1]) *(count(n2) * units[u2]))).sum())
