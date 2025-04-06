@@ -29,15 +29,10 @@ const m2 = (num,curr)=> {
     let 
         maxTens = Object.entries(tens).findLast(([u,v])=>num.includes(u)),
         split = num.split(maxTens[0]),
-        ans
+        ans = ((m2(split[0],0) || 1) * maxTens[1]) + m2(split[1],0)
 
-    if(split[0].length === 0){
-        ans = maxTens[1]+m2(split[1],0)
-    } else {
-        ans = (m2(split[0],0)*maxTens[1])+m2(split[1],0)
-    }
-
-    cache[num] = ans
+    cache[num] = ans;
+    
     return ans
 }
 
